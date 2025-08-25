@@ -8,19 +8,19 @@
 
     <meta property="og:title" content="Generation Of Peace – جيل السلامة">
     <meta property="og:description"
-        content="GENERATION OF PEACE - SALAWAT CAMPAIGN. 1447/2025 - جيل السلام - حملة صلوات. 1447/2025">
-    <meta property="og:image" content="https://dar-al-arqam.co.ke/events/mawlid/media/logo-banner.png">
+        content="GENERATION OF PEACE - SALAWAT CAMPAIGN. 1447/2025 - جيل السلامة - حملة صلوات. 1447/2025">
+    <meta property="og:image" content="https://generationofpeace.co.ke/media/logo-banner.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:url" content="https://dar-al-arqam.co.ke/events/mawlid/mawlid.html">
+    <meta property="og:url" content="https://generationofpeace.co.ke/events/campaign/campaign.html">
     <meta property="og:type" content="website">
 
 
     <meta name="description"
         content="Join the Salawat Challenge — add your salawat count and help reach 10,000,000 this Rabi' ul-Awwal." />
 
-    <link rel="shortcut icon" href="media/GOP_favicon.ico" type="image/x-icon">
-    <link rel="icon" href="media/GOP_favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../media/GOP_fav.ico" type="image/x-icon">
+    <link rel="icon" href="../../media/GOP_fav.ico" type="image/x-icon">
 
 
     <style>
@@ -111,6 +111,15 @@
             font-size: 12px;
             color: rgba(0, 0, 0, 0.5)
         }
+
+        .lines {
+            background: transparent;
+            padding: 4px 7px;
+            border-radius: 12px;
+            border: 2px solid rgba(24, 199, 117, 0.671);
+            font-size: larger;
+        }
+
 
 
 
@@ -213,14 +222,27 @@
             padding: 10px 14px;
             border-radius: 12px;
             border: 0;
-            font-weight: 700
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .ghost {
             background: transparent;
             padding: 8px 12px;
             border-radius: 12px;
-            border: 1px solid rgba(16, 96, 58, 0.08)
+            border: 2px solid rgba(24, 199, 117, 0.671);
+            letter-spacing: 0.5px;
+        }
+
+        .primary-btn:hover {
+            background: var(--green-900);
+            cursor: pointer;
+        }
+
+        .ghost:hover {
+            background: #0d722d3a;
+            color: white;
+            cursor: pointer;
         }
 
         /* Explanatory text */
@@ -231,25 +253,128 @@
         }
 
 
-        /* Videos */
+
+
+        /* ========== Videos Grid ========== */
         .videos {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 8px
+            gap: 12px;
+        }
+
+        @media (min-width: 600px) {
+            .videos {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 900px) {
+            .videos {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .videos {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
 
         .video-wrap {
+            position: relative;
             aspect-ratio: 16/9;
             border-radius: 12px;
             overflow: hidden;
-            background: #000
+            background: #000;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        iframe {
+        .video-wrap:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Thumbnail image */
+        .video-wrap img {
             width: 100%;
             height: 100%;
-            border: 0
+            object-fit: cover;
+            display: block;
         }
+
+        /* Play button overlay */
+        .video-wrap::after {
+            content: "▶";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+            pointer-events: none;
+            /* let clicks go to parent */
+        }
+
+        /* ========== Popup Overlay ========== */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        /* Popup container */
+        .video-popup-content {
+            position: relative;
+            background: #000;
+            padding: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 90%;
+            max-width: 1200px;
+            /* grows on big screens */
+            height: auto;
+        }
+
+        /* Video iframe inside */
+        .video-popup-content iframe {
+            display: block;
+            width: 100%;
+            height: 70vh;
+            max-height: 800px;
+            border: 0;
+        }
+
+        /* Close button stays ABOVE iframe */
+        .close-btn {
+            position: fixed;
+            /* fixed so it's above everything */
+            top: 20px;
+            right: 30px;
+            font-size: 36px;
+            color: #fff;
+            cursor: pointer;
+            z-index: 3000;
+            /* higher than iframe & overlay */
+            background: rgba(0, 0, 0, 0.6);
+            padding: 6px 14px;
+            border-radius: 50%;
+            line-height: 1;
+            transition: background 0.2s;
+        }
+
+        .close-btn:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
 
         /* Form */
         form {
@@ -302,27 +427,339 @@
             align-items: center;
             gap: 14px;
             padding: 0 8px;
-            /* flex: 0 0 40px; */
             transition: transform 600ms ease;
-            /* min-width: 100%; */
-            /* transform: translateX(100%); */
-            /* display: flex; */
         }
 
         .slide .name {
             font-weight: 700
         }
 
-        /* .slide.show {
-            transform: translateX(0);
-            transition: transform 600ms cubic-bezier(.2, .9, .2, 1)
-        } */
-
-
         .slide .count {
             margin-left: auto;
             font-weight: 700
         }
+
+
+
+
+
+        /* Popup overlay */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(6px);
+            background: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+
+        /* menu Popup box */
+        .menu-popup-content {
+            background: rgba(255, 255, 255, 0.181);
+            padding: 30px 30px;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 250px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+
+
+        /* List reset */
+        .menu-options {
+            list-style: none;
+            padding: 0;
+            margin: 30px 0 0 0;
+        }
+
+        /* Menu pills */
+        .menu-options li {
+            background: rgba(255, 255, 255, 0.5);
+            margin: 15px 0;
+            padding: 12px 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+        }
+
+        /* Hover effect */
+        .menu-options li:hover {
+            background: #4caf50;
+            color: #fff;
+        }
+
+
+
+
+        /* salawat lib Popup box */
+        .salawatlib-popup-content {
+            background: rgba(255, 255, 255, 0.181);
+            padding: 20px 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+
+        /* List styling */
+        .salawat-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 0 0;
+            text-align: right;
+            /* Align Arabic properly */
+            direction: rtl;
+        }
+
+        .salawat-list li {
+            background: #f9f9f9;
+            margin: 8px 0;
+            padding: 12px 16px;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: default;
+            transition: background 0.2s ease;
+        }
+
+        .salawat-list li:hover {
+            background: #e8f5e9;
+        }
+
+
+
+        /* learn more Popup box */
+        .learn-more-popup-content {
+            background: rgba(255, 255, 255, 0.181);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+            font-size: larger;
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            color: white;
+            text-align: center;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .learn-more-popup-content h2 {
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .learn-more-popup-content h3 {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+
+
+        /* progress Popup box */
+        .progress-popup-content {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            padding: 25px;
+            width: 90%;
+            max-width: 400px;
+            text-align: left;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.25s ease-in-out;
+        }
+
+
+        /* Typography inside */
+        #progressContent h2 {
+            margin-bottom: 12px;
+            font-size: 20px;
+            text-align: center;
+            color: #222;
+        }
+
+        #progressContent strong {
+            color: #333;
+
+        }
+
+        #progressContent p {
+            margin: 6px 0;
+            font-size: 15px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: #128400;
+            letter-spacing: 1px;
+        }
+
+        /* Highlighted Count Stat */
+        #progressContent .salawat-count {
+            display: block;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c7a7b;
+            background: rgba(44, 122, 123, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+
+
+
+        /* salawat Popup box */
+        .salawat-popup-content {
+            background: rgba(255, 255, 255, 0.181);
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            color: white;
+            text-align: left;
+            position: relative;
+            animation: fadeIn 0.3s ease-in-out;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 6px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 999px;
+            /* pill shape */
+            font-size: 15px;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #4cafef;
+            box-shadow: 0 0 4px rgba(76, 175, 239, 0.5);
+        }
+
+        .form-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+
+
+        /* Close button */
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            background: rgb(251, 251, 251);
+            color: #000;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 30px;
+            font-weight: 700;
+            line-height: 1;
+            padding: 0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            border: none;
+            box-sizing: border-box;
+        }
+
+        .close::before {
+            content: "\00D7";
+            transform: translateY(-2.5px);
+        }
+
+        .close:hover {
+            background: #eee;
+        }
+
+        .close:focus-visible {
+            outline: 2px solid #000;
+            outline-offset: 2px;
+        }
+
+
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .video-popup-content {
+            position: relative;
+            background: #000;
+            padding: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 90%;
+            max-height: 80%;
+        }
+
+        .video-popup-content iframe {
+            display: block;
+            width: 100%;
+            height: 60vh;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-size: 32px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+
 
 
 
@@ -333,7 +770,7 @@
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            padding: 10px 0;
+            padding-bottom: 70px;
         }
 
         .socials {
@@ -365,10 +802,17 @@
 
 
         /* sticky float */
-        .float-cta {
+        .float-cta-wrapper {
             position: fixed;
-            right: 18px;
             bottom: 18px;
+            right: 18px;
+            z-index: 999999;
+            pointer-events: none;
+        }
+
+        .float-cta {
+            pointer-events: auto;
+            z-index: 2147483648;
             background: var(--green-700);
             color: white;
             padding: 15px 19px;
@@ -377,9 +821,19 @@
             display: flex;
             gap: 10px;
             align-items: center;
-            z-index: 50;
             font-size: larger;
+            cursor: pointer;
+            border: none;
         }
+
+        .float-cta-spacer {
+            display: block;
+            height: 80px;
+            /* background-color: #4cafef; */
+            width: 100%;
+        }
+
+
 
         /* Responsive */
         @media (min-width: 600px) {
@@ -408,6 +862,14 @@
                 flex-wrap: wrap;
                 /* let buttons wrap if needed */
             }
+
+            .hide {
+                display: none;
+            }
+
+            .show {
+                display: block;
+            }
         }
 
 
@@ -427,7 +889,7 @@
 <body>
     <header>
         <div class="logo" aria-hidden="true">
-            <img src="media/logo.png" alt="logo">
+            <img src="../../media/logo.png" alt="">
         </div>
 
         <div class="brand">
@@ -435,8 +897,9 @@
             <p>Help us reach <strong>10,000,000</strong> salawat this month</p>
         </div>
         <div class="cta">
-            <!-- <button class="ghost" id="how">How it works</button> -->
-            <button class="primary-btn" id="contribute-top">Contribute</button>
+            <button class="ghost hide" id="learn-more" onclick="openLearnMorePopup()">Learn more</button>
+            <button class="primary-btn hide" onclick="openSalawatPopup()">Contribute</button>
+            <button class="lines show" id="menu-toggle" onclick="openMenuPopup()"> ☰ </button>
         </div>
     </header>
 
@@ -449,9 +912,9 @@
                     <svg viewBox="0 0 220 120" role="img" aria-label="progress gauge">
                         <defs>
                             <linearGradient id="g1" x1="0" x2="1">
-                                <stop offset="0%" stop-color=" #9be6c9" />
-                                <stop offset="50%" stop-color=" #ffeb3b" />
-                                <stop offset="100%" stop-color=" #f44336" />
+                                <stop offset="0" stop-color=" #9be6c9" />
+                                <stop offset="0.5" stop-color=" #ffeb3b" />
+                                <stop offset="1" stop-color=" #f44336" />
                             </linearGradient>
                         </defs>
                         <!-- background arc -->
@@ -490,8 +953,8 @@
                         <div class="lead">Quickly add your salawat below — every one counts. Watch the gauge fill as we
                             get closer.</div>
                         <div class="cta">
-                            <button class="primary-btn" id="scrollToForm">Add Salawat</button>
-                            <button class="ghost" id="shareBtn">Share</button>
+                            <button class="primary-btn" onclick="openSalawatPopup()">Add Salawat</button>
+                            <button class="ghost" onclick="copylink()">Share</button>
                         </div>
                     </div>
                 </div>
@@ -503,20 +966,27 @@
         <section class="card">
             <h3 style="margin:0 0 8px 0">Encouraging videos</h3>
             <div class="videos" id="videos">
-                <div class="video-wrap"><iframe loading="lazy" src="https://youtube.com/embed/rJUWJFw0keo"
-                        title="Sheikh Maulana Bilal Naeemi | Kutchi Language | SALAWAT CAMPAIGN | Generation of Peace | 1445/2023"
-                        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
-                <div class="video-wrap"><iframe loading="lazy" src="https://youtube.com/embed/EhgutdWnolY"
-                        title="Mwito wa Kumswalia Mtume S.A.W | Generation of Peace | Jiilu Salamah | 1442 / 2020"
-                        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
-                <div class="video-wrap"><iframe loading="lazy" src="https://youtube.com/embed/P6y5z6lk7s4"
-                        title="10 Million SALAWAT CAMPAIGN 1445/2023 | Generation of Peace" frameborder="0"
-                        allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
-                <div class="video-wrap"><iframe loading="lazy" src="https://youtube.com/embed/ob0ODA9MB24"
-                        title="10 Million SALAWAT CAMPAIGN 1445/2023 | Generation of Peace | Shekh Hussein Almoody"
-                        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+                <div class="video-wrap" onclick="openVideoPopup('rJUWJFw0keo')">
+                    <img src="https://img.youtube.com/vi/rJUWJFw0keo/hqdefault.jpg" alt="Video thumbnail">
+                </div>
+                <div class="video-wrap" onclick="openVideoPopup('EhgutdWnolY')">
+                    <img src="https://img.youtube.com/vi/EhgutdWnolY/hqdefault.jpg" alt="Video thumbnail">
+                </div>
+                <div class="video-wrap" onclick="openVideoPopup('P6y5z6lk7s4')">
+                    <img src="https://img.youtube.com/vi/P6y5z6lk7s4/hqdefault.jpg" alt="Video thumbnail">
+                </div>
+                <div class="video-wrap" onclick="openVideoPopup('ob0ODA9MB24')">
+                    <img src="https://img.youtube.com/vi/ob0ODA9MB24/hqdefault.jpg" alt="Video thumbnail">
+                </div>
             </div>
         </section>
+
+        <div id="videoPopup" class="popup-overlay">
+            <span class="close-btn" role="button" aria-label="Close" onclick="closeVideoPopup()">✖</span>
+            <div class="popup-content video-popup-content">
+                <div id="videoFrameWrap"></div>
+            </div>
+        </div>
 
 
         <!-- recent contributions ticker -->
@@ -527,26 +997,97 @@
             </div>
         </section>
 
-        <!-- form -->
-        <section class="card">
-            <h3 style="margin:0 0 8px 0">Add your salawat</h3>
+    </main>
+
+    <!-- Menu Popup -->
+    <div id="menuPopup" class="popup" style="display: none;">
+        <div class="menu-popup-content">
+            <span class="close" role="button" aria-label="Close" onclick="closeMenuPopup()"></span>
+            <ul class="menu-options" id="menuOptions">
+                <li onclick="openProgressPopup() , closeMenuPopup()">My progress</li>
+                <li onclick="openSalawatLibPopup() , closeMenuPopup()">Salawat Library</li>
+                <li onclick="openLearnMorePopup() , closeMenuPopup()">Learn more</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Salawat Library Popup -->
+    <div id="salawatLibPopup" class="popup" style="display: none;">
+        <div class="salawatlib-popup-content">
+            <span class="close" role="button" aria-label="Close" onclick="closeSalawatLibPopup()"></span>
+            <h2 style="margin-top:0">Salawat Library</h2>
+            <ul class="salawat-list">
+                <li>اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ</li>
+                <li>اللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ وَسَلِّمْ</li>
+                <li>اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ</li>
+                <li>صَلَّى اللَّهُ عَلَى مُحَمَّدٍ وَعَلَى آلِهِ وَسَلَّمَ</li>
+                <li>اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ عَلَى سَيِّدِنَا مُحَمَّدٍ</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Learn More - Popup Modal -->
+    <div id="learnMorePopup" class="popup">
+        <div class="learn-more-popup-content">
+            <span class="close" role="button" aria-label="Close" onclick="closeLearnMorePopup()"></span>
+            <h2>Salawat Challenge</h2>
+            <p>
+                Join us in honoring our beloved Prophet ﷺ through sending abundant
+                blessings and salutations this Rabiul Awwal and Rabiu Thani.
+            </p>
+            <p>
+                Together, we aim to collect <strong>10 Million salawat</strong> worldwide —
+                spreading love, peace, and unity across the Ummah.
+            </p>
+            <h3>Be part of this noble journey!</h3>
+        </div>
+    </div>
+
+    <!-- Progress Popup -->
+    <div id="progressPopup" class="popup" style="display: none;">
+        <div class="progress-popup-content">
+            <span class="close" role="button" aria-label="Close" onclick="closeProgressPopup()"></span>
+            <div id="progressContent">
+                <!-- Filled dynamically by renderUserProgress() -->
+                <p>Loading your progress...</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Salawat Popup -->
+    <div id="salawat-popup" class="popup">
+        <div class="salawat-popup-content">
+            <span class="close" role="button" aria-label="Close" onclick="closeSalawatPopup()"></span>
+
+            <h2 style="margin-bottom:12px;">Add your Salawat</h2>
+
             <form id="entryForm">
-                <div>
-                    <label for="name">Your name (or nickname)</label>
-                    <input id="name" type="text" placeholder="e.g. Amina" required />
+                <!-- Name -->
+                <div class="form-group">
+                    <label for="name">Name *</label>
+                    <input id="name" type="text" placeholder="e.g. Muhammad" />
                 </div>
-                <div>
-                    <label for="count">How many salawat did you add?</label>
-                    <input id="count" type="number" min="1" placeholder="e.g. 5" required />
+
+                <!-- Phone -->
+                <div class="form-group">
+                    <label for="phone">Phone (optional)</label>
+                    <input id="phone" type="number" placeholder="e.g. 0715477222" />
                 </div>
-                <div style="display:flex;gap:8px;align-items:center">
+
+                <!-- Count -->
+                <div class="form-group">
+                    <label for="count">How many salawat did you add? *</label>
+                    <input id="count" type="number" placeholder="e.g.100" />
+                </div>
+
+                <!-- Submit -->
+                <div class="form-actions">
                     <button class="primary-btn" type="submit">Submit</button>
-                    <div style="margin-left:auto;font-size:12px;color:rgba(0,0,0,0.5)" id="streak">Streak: 0 days</div>
                 </div>
             </form>
-        </section>
-
-    </main>
+        </div>
+    </div>
 
 
     <footer>
@@ -565,14 +1106,362 @@
                 <img src="media/icons/youtube.svg" alt="YouTube" class="footer-icon" /></a>
         </div>
 
+        <div class="float-cta-spacer"></div>
     </footer>
 
-    <button class="float-cta" id="floatCTA"> + Add Salawat</button>
+
+    <div class="float-cta-wrapper">
+        <button class="float-cta" onclick="openSalawatPopup()">+ Add Salawat</button>
+    </div>
+
+
 
     <!-- Implementation scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-
+    <script src="../../script.js"></script>
     <script>
+
+
+        function copylink() {
+            const link = window.location.href;
+            navigator.clipboard.writeText(link).then(() => {
+                showMessage("Link copied to clipboard!");
+            }).catch(err => {
+                console.error("Error copying link: ", err);
+            });
+        }
+
+
+        function openVideoPopup(videoId) {
+            const popup = document.getElementById("videoPopup");
+            const wrap = document.getElementById("videoFrameWrap");
+            // Inject iframe dynamically
+            wrap.innerHTML = `<iframe width="560" height="315"
+      src="https://www.youtube.com/embed/${videoId}?autoplay=1"
+      frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+    </iframe>`;
+            popup.style.display = "flex";
+        }
+
+        function closeVideoPopup() {
+            const popup = document.getElementById("videoPopup");
+            const wrap = document.getElementById("videoFrameWrap");
+            popup.style.display = "none";
+            wrap.innerHTML = ""; // remove iframe so it stops playing
+        }
+
+        // Close when clicking outside
+        document.getElementById("videoPopup").addEventListener("click", e => {
+            const content = e.currentTarget.querySelector(".popup-content");
+            if (!content.contains(e.target)) {
+                closeVideoPopup();
+            }
+        });
+
+        // ################# menu popup
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuPopup = document.getElementById("menuPopup");
+
+            // ✅ Guard in case the element is missing
+            if (!menuPopup) return;
+
+            function openMenuPopup() {
+                menuPopup.style.display = "flex";
+            }
+
+            function closeMenuPopup() {
+                menuPopup.style.display = "none";
+            }
+
+            // Close when clicking outside the content
+            menuPopup.addEventListener("click", function (e) {
+                const content = menuPopup.querySelector(".menu-popup-content");
+                if (content && !content.contains(e.target)) {
+                    closeMenuPopup();
+                }
+            });
+
+            // ✅ Expose for inline HTML onclick
+            window.openMenuPopup = openMenuPopup;
+            window.closeMenuPopup = closeMenuPopup;
+        });
+
+
+
+        // ################# progress popup
+        document.addEventListener("DOMContentLoaded", () => {
+            const progressPopup = document.getElementById("progressPopup");
+
+            // ✅ Guard: Only bind if popup exists in DOM
+            if (!progressPopup) return;
+
+            function openProgressPopup() {
+                renderUserProgress();
+                progressPopup.style.display = "flex";
+            }
+
+            function closeProgressPopup() {
+                progressPopup.style.display = "none";
+            }
+
+            // Close when clicking outside the content
+            progressPopup.addEventListener("click", function (e) {
+                const content = progressPopup.querySelector(".progress-popup-content");
+                if (content && !content.contains(e.target)) {
+                    closeProgressPopup();
+                }
+            });
+
+            // ✅ Make available for inline HTML onclick=""
+            window.openProgressPopup = openProgressPopup;
+            window.closeProgressPopup = closeProgressPopup;
+        });
+
+        async function renderUserProgress() {
+            const container = document.getElementById("progressContent");
+            if (!container) return;
+
+            // Clear previous content
+            container.innerHTML = "<p>Loading your progress...</p>";
+
+            // Fetch local storage data
+            const name = localStorage.getItem("salawatName") || "Unknown";
+            const phone = localStorage.getItem("salawatPhone") || "N/A";
+            const userUuid = localStorage.getItem(USER_KEY);
+
+            // Base info
+            let html = `
+              <h2>My Progress</h2>
+              <p><strong>Name:</strong> ${name}</p>
+              <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
+            `;
+
+            if (!userUuid) {
+                container.innerHTML = html + `<p style="color:gray">No user ID found. Cannot fetch progress.</p>`;
+                return;
+            }
+
+            try {
+                // Fetch count for this specific user
+                const { data, error } = await supabase
+                    .from(TABLE_NAME)
+                    .select("count")
+                    .eq("id", userUuid); // 🔑 Assuming "id" is your user key column
+
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    container.innerHTML = html + `<p style="color:gray">No records found.</p>` + `<p style="color:gray">Submit Atleast once to see progress.</p>`;
+                } else {
+                    // Sum up counts
+                    const total = data.reduce((s, r) => s + (Number(r.count) || 0), 0);
+                    const totalCount = total.toLocaleString();
+                    container.innerHTML = html + `<p><strong>Total Salawat:</strong> <span class="salawat-count">${totalCount}</span></p>`;
+                }
+
+            } catch (err) {
+                console.warn("Supabase progress fetch error", err);
+                container.innerHTML = html + `<p style="color:red">Failed to fetch progress.</p>`;
+            }
+        }
+
+
+
+        // #################   salawatlib popup
+        document.addEventListener("DOMContentLoaded", () => {
+            const salawatLibPopup = document.getElementById("salawatLibPopup");
+
+            function openSalawatLibPopup() {
+                salawatLibPopup.style.display = "flex";
+            }
+
+            function closeSalawatLibPopup() {
+                salawatLibPopup.style.display = "none";
+            }
+
+            salawatLibPopup.addEventListener("click", function (e) {
+                const content = salawatLibPopup.querySelector(".salawatlib-popup-content");
+                if (!content.contains(e.target)) {
+                    closeSalawatLibPopup();
+                }
+            });
+
+            // Expose to global scope so inline onclick works
+            window.openSalawatLibPopup = openSalawatLibPopup;
+            window.closeSalawatLibPopup = closeSalawatLibPopup;
+        });
+
+
+
+
+        // ################# learn more popup
+        document.addEventListener("DOMContentLoaded", () => {
+            const learnMorePopup = document.getElementById("learnMorePopup");
+
+            // ✅ Guard if element not found
+            if (!learnMorePopup) return;
+
+            function openLearnMorePopup() {
+                learnMorePopup.style.display = "flex";
+            }
+
+            function closeLearnMorePopup() {
+                learnMorePopup.style.display = "none";
+            }
+
+            // ✅ Close when clicking outside the content
+            learnMorePopup.addEventListener("click", function (e) {
+                const content = learnMorePopup.querySelector(".learn-more-popup-content");
+                if (content && !content.contains(e.target)) {
+                    closeLearnMorePopup();
+                }
+            });
+
+            // ✅ Expose for inline HTML
+            window.openLearnMorePopup = openLearnMorePopup;
+            window.closeLearnMorePopup = closeLearnMorePopup;
+        });
+
+
+
+
+        // #################   salawat popup
+        function openSalawatPopup() {
+            const popup = document.getElementById("salawat-popup");
+            popup.style.display = "flex";
+
+            // Fetch saved data
+            const savedName = localStorage.getItem("salawatName");
+            const savedPhone = localStorage.getItem("salawatPhone");
+            if (savedName) {
+                document.getElementById("name").value = savedName;
+            }
+            if (savedPhone) {
+                document.getElementById("phone").value = savedPhone;
+            }
+            validateInputs();
+        }
+        // openSalawatPopup();
+
+        function closeSalawatPopup() {
+            document.getElementById("salawat-popup").style.display = "none";
+        }
+
+        function validateInputs() {
+            const name = document.getElementById("name");
+            const phone = document.getElementById("phone");
+            const count = document.getElementById("count");
+
+            // helper function for styling
+            function setValid(input) {
+                input.style.backgroundColor = " #d4f8d4";  // light green
+                input.style.borderColor = " #4caf50";
+            }
+            function setInvalid(input) {
+                input.style.backgroundColor = "#f8d4d4";  // light red
+                input.style.borderColor = "#e74c3c";
+            }
+            function resetStyle(input) {
+                input.style.backgroundColor = "";
+                input.style.borderColor = "";
+            }
+
+            // ✅ Name: required
+            if (name.value.trim() !== "") {
+                setValid(name);
+            } else {
+                setInvalid(name);
+            }
+
+            // 📞 Phone: optional, must be digits if filled
+            if (phone.value.trim() === "") {
+                resetStyle(phone); // empty = neutral
+            } else if (/^[0-9]+$/.test(phone.value.trim())) {
+                setValid(phone);
+            } else {
+                setInvalid(phone);
+            }
+
+            const value = parseInt(count.value.trim());
+
+            // 🔢 Count: required, number, max 5 digits
+            if (count.value.trim() !== "" && /^[0-9]{1,5}$/.test(count.value.trim()) && value <= 10000 && value > 0) {
+                setValid(count);
+            } else {
+                setInvalid(count);
+            }
+        }
+
+        // Run validation as user types
+        document.querySelectorAll("#entryForm input").forEach(input => {
+            input.addEventListener("input", validateInputs);
+        });
+
+        // On submit
+        document.getElementById("entryForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
+            validateInputs();
+
+            const name = document.getElementById("name").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+            const count = document.getElementById("count").value.trim();
+
+
+            if (!name) {
+                showMessage("Please fill in the name.", false);
+                return;
+            }
+
+            if (!count) {
+                showMessage("Please fill in the count.", false);
+                return;
+            }
+
+            if (parseInt(count) < 1) {
+                showMessage("Please enter a valid number.", false);
+                return;
+            }
+
+            if (parseInt(count) > 10000) {
+                showMessage("Please enter a number less than 10,000.", false);
+                return;
+            }
+
+            console.log({ name, phone, count });
+
+            // Save name & phone to localStorage
+            localStorage.setItem("salawatName", name);
+            localStorage.setItem("salawatPhone", phone);
+
+            // Reset count only
+            document.getElementById("count").value = "";
+            document.getElementById("count").style.backgroundColor = "";
+            document.getElementById("count").style.borderColor = "";
+
+            try {
+                const res = await addOrUpdateEntry(name, count, phone);
+
+                await fetchAndRender();  // refresh visuals after success
+
+                // clear inputs
+                document.getElementById('count').value = '';
+                document.getElementById('name').value = '';
+
+                // thank the user
+                Saved();
+                showMessage(`Thank you ${name.split(" ")[0]} for your contribution!`, true, 5);
+                closeSalawatPopup();
+
+            } catch (err) {
+                console.log('ERROR:', err);
+
+                alert('Failed to save — please try again');
+            }
+
+
+        });
+
+
         // -----------------------
         // Supabase + UI integration
         // -----------------------
@@ -638,7 +1527,7 @@
         }
 
         function maskName(name) {
-            if (!name) return "Anon......";
+            if (!name) return "Anon......  ......s";
             return name.slice(0, 1) + ".......  ......." + name.slice(-1);
         }
 
@@ -730,19 +1619,46 @@
         }
 
         // Add or update the current user's row. Prefer server-side RPC for atomic upsert/increment.
-        async function addOrUpdateEntry(name, addCount) {
-            console.log('called new with:', { name, addCount });
+        // async function addOrUpdateEntry(name, addCount) {
+        //     console.log('called new with:', { name, addCount });
+
+        //     name = (name || 'Anonymous') + '';
+        //     addCount = Number(addCount) || 0;
+
+        //     if (addCount <= 0) throw new Error('addCount must be > 0');
+
+        //     // Call Postgres function
+        //     const { data, error } = await supabase.rpc('upsert_or_increment_salawat', {
+        //         p_id: userUuid,
+        //         p_name: name,
+        //         p_add: addCount
+        //     });
+
+        //     if (error) {
+        //         console.error('RPC error:', error);
+        //         throw error;
+        //     }
+
+        //     const newCount = Number(data) || addCount;
+        //     console.log('New count for', userUuid, '=', newCount);
+
+        //     return { acted: 'rpc', newCount };
+        // }
+
+        async function addOrUpdateEntry(name, addCount, phone) {
+            console.log('called new with:', { name, addCount, phone });
 
             name = (name || 'Anonymous') + '';
             addCount = Number(addCount) || 0;
 
             if (addCount <= 0) throw new Error('addCount must be > 0');
 
-            // Call Postgres function
+            // Call Postgres function with phone included
             const { data, error } = await supabase.rpc('upsert_or_increment_salawat', {
                 p_id: userUuid,
                 p_name: name,
-                p_add: addCount
+                p_add: addCount,
+                p_phone: phone || null
             });
 
             if (error) {
@@ -755,7 +1671,6 @@
 
             return { acted: 'rpc', newCount };
         }
-
 
         // -------------------------
         // Realtime subscription
@@ -791,27 +1706,27 @@
         // -------------------------
         // Form handling
         // -------------------------
-        form.addEventListener('submit', async (ev) => {
-            ev.preventDefault();
-            const name = document.getElementById('name').value.trim() || 'Anonymous';
-            const count = Number(document.getElementById('count').value) || 0;
-            if (!count || count <= 0) { alert('Please enter a positive number'); return; }
+        // form.addEventListener('submit', async (ev) => {
+        //     ev.preventDefault();
+        //     const name = document.getElementById('name').value.trim() || 'Anonymous';
+        //     const count = Number(document.getElementById('count').value) || 0;
+        //     if (!count || count <= 0) { alert('Please enter a positive number'); return; }
 
-            try {
-                const res = await addOrUpdateEntry(name, count);
+        //     try {
+        //         const res = await addOrUpdateEntry(name, count);
 
-                await fetchAndRender();  // refresh visuals after success
-                // clear inputs
-                document.getElementById('count').value = '';
-                document.getElementById('name').value = '';
+        //         await fetchAndRender();  // refresh visuals after success
+        //         // clear inputs
+        //         document.getElementById('count').value = '';
+        //         document.getElementById('name').value = '';
 
-                // thank the user
-                alert('Shukran');
+        //         // thank the user
+        //         alert('Shukran');
 
-            } catch (err) {
-                alert('Failed to save — please try again');
-            }
-        });
+        //     } catch (err) {
+        //         alert('Failed to save — please try again');
+        //     }
+        // });
 
 
         // -------------------------
