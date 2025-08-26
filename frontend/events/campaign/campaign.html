@@ -937,7 +937,7 @@
                         </div>
                         <div
                             style="display:flex;justify-content:space-between;font-size:12px;margin-top:8px;color:rgba(0,0,0,0.5)">
-                            <div>0</div>
+                            <div id="progressCountDisplay">0</div>
                             <div id="gGoal">10,000,000</div>
                         </div>
                     </div>
@@ -1477,6 +1477,7 @@
 
         /* UI elements (cached) */
         const countDisplay = document.getElementById('countDisplay');
+        const progressCountDisplay = document.getElementById('progressCountDisplay');
         const progressArc = document.getElementById('progressArc');
         const needle = document.getElementById('needle');
         const progressFill = document.getElementById('progressFill');
@@ -1511,6 +1512,7 @@
                 const eased = (--t) * t * t + 1; // easeOutCubic
                 const val = Math.round(from + (to - from) * eased);
                 countDisplay.textContent = fmt(val);
+                progressCountDisplay.textContent = fmt(val);
                 displayedCount = val;
                 if (now - start < duration) requestAnimationFrame(step);
             }
