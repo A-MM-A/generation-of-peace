@@ -2,22 +2,36 @@
 <html lang="en">
 
 <head>
+    <!-- Primary Meta Tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Generation Of Peace</title>
+    <meta name="title" content="Generation Of Peace" />
+    <meta name="description"
+        content="Join the Salawat Challenge — add your salawat count and help reach 10,000,000 this Rabi' ul-Awwal." />
 
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://generationofpeace.co.ke/events/campaign/campaign.html">
     <meta property="og:title" content="Generation Of Peace – جيل السلامة">
     <meta property="og:description"
         content="GENERATION OF PEACE - SALAWAT CAMPAIGN. 1447/2025 - جيل السلامة - حملة صلوات. 1447/2025">
     <meta property="og:image" content="https://generationofpeace.co.ke/media/campaign-banner.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:url" content="https://generationofpeace.co.ke/events/campaign/campaign.html">
-    <meta property="og:type" content="website">
 
 
-    <meta name="description"
-        content="Join the Salawat Challenge — add your salawat count and help reach 10,000,000 this Rabi' ul-Awwal." />
+    <!-- X (Twitter) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://generationofpeace.co.ke/events/campaign/campaign.html" />
+    <meta name="twitter:title" content="Generation Of Peace – جيل السلامة" />
+    <meta name="twitter:description"
+        content="GENERATION OF PEACE - SALAWAT CAMPAIGN. 1447/2025 - جيل السلامة - حملة صلوات. 1447/2025">
+    <meta name="twitter:image" content="https://generationofpeace.co.ke/media/campaign-banner.jpg" />
+    <meta name="twitter:site" content="@ofpeace8" />
+
+
 
     <link rel="shortcut icon" href="../../media/GOP_fav.ico" type="image/x-icon">
     <link rel="icon" href="../../media/GOP_fav.ico" type="image/x-icon">
@@ -111,6 +125,7 @@
         .brand h1 {
             font-size: 18px
         }
+
         .brand h3 {
             font-size: 12px;
             color: rgba(0, 116, 89, 0.733);
@@ -702,7 +717,7 @@
 
         .close::before {
             content: "\00D7";
-            transform: translateY(-2.5px);
+            transform: translateY(-2px);
         }
 
         .close:hover {
@@ -916,7 +931,7 @@
 
     <main>
         <!-- gauge + hero text -->
-        <section class="card">
+        <section class="card" id="hero">
             <div class="meter-wrap">
                 <div class="gauge">
                     <!-- SVG gauge with needle -->
@@ -1456,6 +1471,7 @@
             document.getElementById("count").style.borderColor = "";
 
             closeSalawatPopup();
+            document.getElementById("hero").scrollIntoView({ behavior: "smooth" });
             try {
                 const res = await addOrUpdateEntry(name, count, phone);
 
@@ -1714,8 +1730,8 @@
             // --- LocalStorage: show only once per 10 minutes ---
             const lastShown = localStorage.getItem("fireworks_last_shown");
             const now = Date.now();
-            const cooldown = 10 * 60 * 1000; // 10 minutes in ms
-            // const cooldown = 5 * 1000; // 10 minutes in ms
+            const cooldown = 20 * 60 * 1000; // 20 minutes in ms
+            // const cooldown = 5 * 1000; // 5 seconds in ms
             if (lastShown && now - parseInt(lastShown) < cooldown) {
                 return; // Do not show again yet
             }
