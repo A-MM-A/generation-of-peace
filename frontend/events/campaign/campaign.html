@@ -24,6 +24,10 @@
 
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Asimovian&family=Pacifico&display=swap');
+    </style>
+
+    <style>
         :root {
             --green-900: #0b6b3a;
             --green-700: #11946b;
@@ -905,6 +909,7 @@
 
 
     <main>
+        <!-- gauge + hero text -->
         <section class="card">
             <div class="meter-wrap">
                 <div class="gauge">
@@ -950,8 +955,9 @@
                     </div>
 
                     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px">
-                        <div class="lead"> “<i style="color: #5d5f5d;">Indeed, Allah and His angels send blessings upon the Prophet. O you who
-                            believe, send blessings and peace upon him abundantly.</i>” (Qur’an 33:56) <br>
+                        <div class="lead"> “<i style="color: #5d5f5d;">Indeed, Allah and His angels send blessings upon
+                                the Prophet. O you who
+                                believe, send blessings and peace upon him abundantly.</i>” (Qur’an 33:56) <br>
                             In this blessed month of the Prophet’s birth ﷺ, join the ummah in sending salawat.</div>
                         <div class="cta">
                             <button class="primary-btn" onclick="openSalawatPopup()">Add Salawat</button>
@@ -1091,6 +1097,7 @@
     </div>
 
 
+    <!-- footer -->
     <footer>
 
         <div class="socials">
@@ -1466,6 +1473,7 @@
         });
 
 
+
         // -----------------------
         // Supabase + UI integration
         // -----------------------
@@ -1625,32 +1633,6 @@
         }
 
         // Add or update the current user's row. Prefer server-side RPC for atomic upsert/increment.
-        // async function addOrUpdateEntry(name, addCount) {
-        //     console.log('called new with:', { name, addCount });
-
-        //     name = (name || 'Anonymous') + '';
-        //     addCount = Number(addCount) || 0;
-
-        //     if (addCount <= 0) throw new Error('addCount must be > 0');
-
-        //     // Call Postgres function
-        //     const { data, error } = await supabase.rpc('upsert_or_increment_salawat', {
-        //         p_id: userUuid,
-        //         p_name: name,
-        //         p_add: addCount
-        //     });
-
-        //     if (error) {
-        //         console.error('RPC error:', error);
-        //         throw error;
-        //     }
-
-        //     const newCount = Number(data) || addCount;
-        //     console.log('New count for', userUuid, '=', newCount);
-
-        //     return { acted: 'rpc', newCount };
-        // }
-
         async function addOrUpdateEntry(name, addCount, phone) {
             console.log('called new with:', { name, addCount, phone });
 
@@ -1709,31 +1691,6 @@
             updateGauge(actualCount);
         }
 
-        // -------------------------
-        // Form handling
-        // -------------------------
-        // form.addEventListener('submit', async (ev) => {
-        //     ev.preventDefault();
-        //     const name = document.getElementById('name').value.trim() || 'Anonymous';
-        //     const count = Number(document.getElementById('count').value) || 0;
-        //     if (!count || count <= 0) { alert('Please enter a positive number'); return; }
-
-        //     try {
-        //         const res = await addOrUpdateEntry(name, count);
-
-        //         await fetchAndRender();  // refresh visuals after success
-        //         // clear inputs
-        //         document.getElementById('count').value = '';
-        //         document.getElementById('name').value = '';
-
-        //         // thank the user
-        //         alert('Shukran');
-
-        //     } catch (err) {
-        //         alert('Failed to save — please try again');
-        //     }
-        // });
-
 
         // -------------------------
         // Init
@@ -1742,6 +1699,228 @@
             await fetchAndRender();
             setupRealtime();
         })();
+
+        // -------------------------
+        // fireworks
+        // -------------------------
+
+        function fireworks(message, durationSeconds) {
+            // --- LocalStorage: show only once per 10 minutes ---
+            const lastShown = localStorage.getItem("fireworks_last_shown");
+            const now = Date.now();
+            const cooldown = 10 * 60 * 1000; // 10 minutes in ms
+            // const cooldown = 5 * 1000; // 10 minutes in ms
+            if (lastShown && now - parseInt(lastShown) < cooldown) {
+                return; // Do not show again yet
+            }
+            localStorage.setItem("fireworks_last_shown", now);
+
+            // --- Inject Styles ---
+            const style = document.createElement("style");
+            style.textContent = `
+                #fw-container {
+                    position: fixed;
+                    top: 0; left: 0;
+                    width: 100%; height: 100%;
+                    pointer-events: none;
+                    z-index: 9999;
+                    background: transparent;
+                }
+                #fw-canvas {
+                    position: absolute;
+                    top: 0; left: 0;
+                    width: 100%; height: 100%;
+                }
+                #fw-text {
+                    position: absolute;
+                    top: 50%; 
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    text-align: center;
+                    white-space: pre-line;
+                    animation: heartbeat 2s infinite;
+                    text-shadow: 0 0 10px rgba(255,215,0,0.9); /* glowing effect */
+                    width: 80vw;
+                    min-width: 200px;
+
+                    /* bubble glass background */
+                    display: inline-block;
+                    background: rgba(255, 255, 255, 0.05);
+                    padding: 10px 30px;
+                    border-radius: 16px;
+                    backdrop-filter: blur(3px);
+                    -webkit-backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 255, 255, 0.3);
+                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+                    
+                }
+                #fw-text .line1 {
+                    font-size: 3em;
+                    font-weight: bold;
+                    font-family: "Asimovian", sans-serif;
+                    color: gold;
+                    -webkit-text-stroke: 1px black;
+                    margin-bottom: 0.1em;
+                }
+                #fw-text .line2 {
+                    font-size: 1.5em;
+                    font-weight: normal;
+                    font-family: "Pacifico", cursive;
+                    color: black;
+                    -webkit-text-stroke: 0.2px gold;
+                    margin-top: 0.15em;
+                }
+
+                @keyframes heartbeat {
+                    0%, 40%, 80%, 100% { transform: translate(-50%, -50%) scale(1); }
+                    20%, 60% { transform: translate(-50%, -50%) scale(1.15); }
+                    }
+            `;
+            document.head.appendChild(style);
+
+            // --- Container ---
+            const container = document.createElement("div");
+            container.id = "fw-container";
+            container.innerHTML = `
+                <canvas id="fw-canvas"></canvas>
+                <div id="fw-text"></div>
+            `;
+            document.body.appendChild(container);
+
+            const canvas = document.getElementById("fw-canvas");
+            const ctx = canvas.getContext("2d");
+            let w, h;
+            function resizeCanvas() {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener("resize", resizeCanvas);
+
+            // --- Setup Text ---
+            const textDiv = document.getElementById("fw-text");
+
+            // small helper to avoid HTML injection
+            function esc(s) {
+                const d = document.createElement('div');
+                d.textContent = s;
+                return d.innerHTML;
+            }
+
+            const lines = String(message ?? '').split(/\r?\n/).map(s => s.trim());
+            const firstLine = lines.shift() || '';
+            const restLines = lines;
+
+            textDiv.innerHTML = `
+                <div class="line1">${esc(firstLine)}</div>
+                ${restLines.map(l => `<div class="line2">${esc(l)}</div>`).join('')}
+            `;
+
+
+            // --- Spark image (optional) ---
+            let sparkImg = null;
+            // fetch("media/icons/spark.svg", { method: "HEAD" }).then(res => {
+            //     if (res.ok) {
+            //         sparkImg = new Image();
+            //         sparkImg.src = "media/icons/spark.svg";
+            //     }
+            // });
+
+            // --- Fireworks Particles ---
+            class Particle {
+                constructor(x, y, color, velocity) {
+                    this.x = x;
+                    this.y = y;
+                    this.color = color;
+                    this.velocity = velocity;
+                    this.alpha = 1;
+                    this.size = Math.random() * 3 + 2; // bigger sparks
+                    this.decay = Math.random() * 0.015 + 0.01;
+                }
+                update() {
+                    this.x += this.velocity.x;
+                    this.y += this.velocity.y;
+                    this.velocity.y += 0.03; // stronger gravity
+                    this.alpha -= this.decay;
+                }
+                draw() {
+                    ctx.globalAlpha = this.alpha;
+                    if (sparkImg && sparkImg.complete) {
+                        ctx.drawImage(sparkImg, this.x - this.size, this.y - this.size, this.size * 2, this.size * 2);
+                    } else {
+                        ctx.fillStyle = this.color;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    ctx.globalAlpha = 1;
+                }
+            }
+
+            let particles = [];
+
+            function createFirework(x, y) {
+                const colors = ["#FFD700", "#FFA500", "#FFFF00", "#FF4500", "#FF6347"];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const count = 80; // more particles
+                for (let i = 0; i < count; i++) {
+                    const angle = (Math.PI * 2) * (i / count);
+                    const speed = Math.random() * 7 + 4; // faster sparks
+                    particles.push(new Particle(x, y, color, {
+                        x: Math.cos(angle) * speed,
+                        y: Math.sin(angle) * speed
+                    }));
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, w, h);
+                particles = particles.filter(p => p.alpha > 0);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+
+            // Fireworks frequent auto
+            const fireworkInterval = setInterval(() => {
+                const x = Math.random() * w;
+                const y = Math.random() * (h / 2);
+                createFirework(x, y);
+            }, 300); // every 0.3s
+
+            // --- User Interaction (click/tap to explode) ---
+            function triggerFireworkAtEvent(e) {
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.clientX || e.touches[0].clientX) - rect.left;
+                const y = (e.clientY || e.touches[0].clientY) - rect.top;
+                createFirework(x, y);
+            }
+            window.addEventListener("click", triggerFireworkAtEvent);
+            window.addEventListener("touchstart", triggerFireworkAtEvent);
+
+            // --- Stop & Clean Up after durationSeconds ---
+            setTimeout(() => {
+                clearInterval(fireworkInterval);
+                window.removeEventListener("click", triggerFireworkAtEvent);
+                window.removeEventListener("touchstart", triggerFireworkAtEvent);
+
+                // fade out the container before removing
+                container.style.transition = "opacity 1.5s ease";
+                container.style.opacity = "0";
+
+                // actually remove after fade completes
+                setTimeout(() => {
+                    container.remove();
+                    style.remove();
+                }, 1500);
+            }, durationSeconds * 1000);
+        }
+
+        fireworks("1500\nYears\n since birth of the prophet", 7);
+
 
     </script>
 
