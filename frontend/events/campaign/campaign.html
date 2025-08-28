@@ -380,18 +380,11 @@
         /* Close button stays ABOVE iframe */
         .close-btn {
             position: fixed;
-            /* fixed so it's above everything */
             top: 20px;
             right: 30px;
-            font-size: 36px;
+            font-size: 32px;
             color: #fff;
             cursor: pointer;
-            z-index: 3000;
-            /* higher than iframe & overlay */
-            background: rgba(0, 0, 0, 0.6);
-            padding: 6px 14px;
-            border-radius: 50%;
-            line-height: 1;
             transition: background 0.2s;
         }
 
@@ -730,46 +723,6 @@
         }
 
 
-        .popup-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-
-        .video-popup-content {
-            position: relative;
-            background: #000;
-            padding: 0;
-            border-radius: 8px;
-            overflow: hidden;
-            max-width: 90%;
-            max-height: 80%;
-        }
-
-        .video-popup-content iframe {
-            display: block;
-            width: 100%;
-            height: 60vh;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 8px;
-            right: 12px;
-            font-size: 32px;
-            color: #fff;
-            cursor: pointer;
-        }
-
-
-
         /* Animation */
         @keyframes fadeIn {
             from {
@@ -931,7 +884,7 @@
 
     <main>
         <!-- gauge + hero text -->
-        <section class="card" id="hero">
+        <section class="card">
             <div class="meter-wrap">
                 <div class="gauge">
                     <!-- SVG gauge with needle -->
@@ -1471,7 +1424,7 @@
             document.getElementById("count").style.borderColor = "";
 
             closeSalawatPopup();
-            document.getElementById("hero").scrollIntoView({ behavior: "smooth" });
+            window.scrollTo({ top: 0, behavior: "smooth" });
             try {
                 const res = await addOrUpdateEntry(name, count, phone);
 
